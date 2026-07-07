@@ -75,77 +75,47 @@ func start_with_deck(player_deck_data: PlayerDeck) -> void:
 			deck.add_card(scene.instantiate())
 
 func start():
-	#spells
-	var fireball = fireballCardScene.instantiate()
-	var magicRain = magicRainCardScene.instantiate()
-	var newWinds = newWindsCardScene.instantiate()
-	var onFire = onFireCardScene.instantiate()
-	var rage = rageCardScene.instantiate()
-	var revitalize = revitalizeCardScene.instantiate()
-	var stoneSkin = stoneSkinCardScene.instantiate()
-	var strongWinds = strongWindsCardScene.instantiate()
-	var waterOfLife = waterOfLiteCardScene.instantiate()
-	var windBarrier = windBarrierCardScene.instantiate()
-	deck.add_card(newWinds)
-	deck.add_card(onFire)
-	deck.add_card(revitalize)
-	deck.add_card(stoneSkin)
-	deck.add_card(strongWinds)
-	deck.add_card(waterOfLife)
-	deck.add_card(windBarrier)
-	
-	#Structures
-	var flameTower = flameTowerCardScene.instantiate()
-	var earthSoul = earthSoulCardScene.instantiate()
-	var flameFortress = flameFortressCardScene.instantiate()
-	var fortress = fortressCardScene.instantiate()
-	var fountainOdLife = fountainOdLifeCardScene.instantiate()
-	var healthStone = healthStoneCardScene.instantiate()
-	var mausoleum = mausoleumCardScene.instantiate()
-	var swirl = swirlCardScene.instantiate()
-	var waterMark = waterMarkCardScene.instantiate()
-	deck.add_card(flameTower)
-	deck.add_card(flameFortress)
-	deck.add_card(fortress)
-	deck.add_card(swirl)
-	deck.add_card(mausoleum)
-	deck.add_card(waterMark)
-	
-	#creature
-	var airGolem = airGolemScene.instantiate()
-	var armouredFire = armouredfireScene.instantiate()
-	var droplet = dropletScene.instantiate()
-	var earthElemental = earthElementalScene.instantiate()
-	var earthGolem = earthGolemScene.instantiate()
-	var fireElemental = fireElementalScene.instantiate()
-	var magicFire = magicFireScene.instantiate()
-	var stone = stoneScene.instantiate()
-	var twister = twisterScene.instantiate()
-	var waterElemental = waterElementalScene.instantiate()
-	var windElemental = windElementalScene.instantiate()
-	var windFairy = windFairyScene.instantiate()
-	deck.add_card(earthElemental)
-	deck.add_card(fireElemental)
-	deck.add_card(waterElemental)
-	deck.add_card(windElemental)
-	
-	for i in range(3): 
-		deck.add_card(fireball)
-		deck.add_card(magicRain)
-		deck.add_card(rage)
-		
-		deck.add_card(earthSoul)
-		deck.add_card(fountainOdLife)
-		deck.add_card(healthStone)
-		
-		deck.add_card(airGolem)
-		deck.add_card(armouredFire)
-		deck.add_card(droplet)
-		deck.add_card(earthGolem)
-		deck.add_card(magicFire)
-		deck.add_card(stone)
-		deck.add_card(twister)
-		deck.add_card(windFairy)
+	# 1x spells
+	deck.add_card(newWindsCardScene.instantiate())
+	deck.add_card(onFireCardScene.instantiate())
+	deck.add_card(revitalizeCardScene.instantiate())
+	deck.add_card(stoneSkinCardScene.instantiate())
+	deck.add_card(strongWindsCardScene.instantiate())
+	deck.add_card(waterOfLiteCardScene.instantiate())
+	deck.add_card(windBarrierCardScene.instantiate())
+
+	# 1x structures
+	deck.add_card(flameTowerCardScene.instantiate())
+	deck.add_card(flameFortressCardScene.instantiate())
+	deck.add_card(fortressCardScene.instantiate())
+	deck.add_card(swirlCardScene.instantiate())
+	deck.add_card(mausoleumCardScene.instantiate())
+	deck.add_card(waterMarkCardScene.instantiate())
+
+	# 1x creatures
+	deck.add_card(earthElementalScene.instantiate())
+	deck.add_card(fireElementalScene.instantiate())
+	deck.add_card(waterElementalScene.instantiate())
+	deck.add_card(windElementalScene.instantiate())
+
+	# 3x each
+	for i in range(3):
+		deck.add_card(fireballCardScene.instantiate())
+		deck.add_card(magicRainCardScene.instantiate())
+		deck.add_card(rageCardScene.instantiate())
+
+		deck.add_card(earthSoulCardScene.instantiate())
+		deck.add_card(fountainOdLifeCardScene.instantiate())
+		deck.add_card(healthStoneCardScene.instantiate())
+
+		deck.add_card(airGolemScene.instantiate())
+		deck.add_card(armouredfireScene.instantiate())
+		deck.add_card(dropletScene.instantiate())
+		deck.add_card(earthGolemScene.instantiate())
+		deck.add_card(magicFireScene.instantiate())
+		deck.add_card(stoneScene.instantiate())
+		deck.add_card(twisterScene.instantiate())
+		deck.add_card(windFairyScene.instantiate())
 
 
 func _on_attack_pressed():

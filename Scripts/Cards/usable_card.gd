@@ -39,12 +39,6 @@ func add_armor(amount):
 func take_damage(amount):
 	$Card.take_damage(amount)
 
-func _on_mouse_entered(card: Card) -> void:
-	mouse_entered.emit(self)
-
-func _on_mouse_exited(card: Card) -> void:
-	mouse_exited.emit(self)
-
 func activate(game_state: Dictionary):
 	action.activate(game_state)
 

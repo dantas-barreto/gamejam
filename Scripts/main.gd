@@ -14,12 +14,14 @@ extends Node2D
 var rng = RandomNumberGenerator.new()
 
 var enemy_playable_deck: PlayableDeck
+var enemy_turn_running := false
 
 var objective: int = 0
 var amount_objective: int = 0
 var objective_card
 
 func restart_game():
+	enemy_turn_running = false
 	game_control.current_state = GameController.TurnState.PLAYER_TURN
 	$MainScreen/PlayerCharacter.reset()
 	$MainScreen/EnemyCharacter.reset()
@@ -50,36 +52,48 @@ func _process(delta: float) -> void:
 	elif $MainScreen/EnemyCharacter.health <= 0:
 		game_control.transition(GameController.TurnState.VICTORY)
 	
-	if game_control.current_state == GameController.TurnState.ENEMY_TURN:
+	# TODO: refactor the enemy round into a function
+	if game_control.current_state == GameController.TurnState.ENEMY_TURN and not enemy_turn_running:
+		enemy_turn_running = true
+		_log("--- Enemy Turn ---")
 		for i in 3:
-			if(enemy_deck_in_hand.hand.hand.is_empty()):
-				pass
-			else:
+			await get_tree().create_timer(0.5).timeout
+			if not enemy_deck_in_hand.hand.hand.is_empty():
 				var choosed_card: UsableCard = enemy_deck_in_hand.hand.hand[rng.randi_range(0, enemy_deck_in_hand.hand.hand.size() - 1)]
 				choosed_card.set_rotation(deg_to_rad(0))
 				enemy_deck_in_hand._on_hand_card_transfer_to_table(choosed_card)
-				print(choosed_card)
-		
+				_log("Enemy plays %s (%s)" % [choosed_card.get_node("Card").card_name, choosed_card.get_type()])
+
 		game_control.transition(GameController.TurnState.ATTACK_TURN)
+		_log("--- Combat ---")
 		for creature in player_deck_in_hand.table.table:
+			var atk := creature.get_attack()
 			creature.attack({
 			"caster": $MainScreen/PlayerCharacter,
 			"your_monster": player_deck_in_hand.table.table,
 			"targets": enemy_deck_in_hand.table.table,
 			"enemy": $MainScreen/EnemyCharacter
 			})
+			_log("Player's %s attacks for %d" % [creature.get_node("Card").card_name, atk])
+			await get_tree().create_timer(0.5).timeout
+
 		for creature in enemy_deck_in_hand.table.table:
+			var atk := creature.get_attack()
 			creature.attack({
 			"caster": $MainScreen/EnemyCharacter,
 			"your_monster": enemy_deck_in_hand.table.table,
 			"targets": player_deck_in_hand.table.table,
 			"enemy": $MainScreen/PlayerCharacter
 			})
-			
+			_log("Enemy's %s attacks for %d" % [creature.get_node("Card").card_name, atk])
+			await get_tree().create_timer(0.5).timeout
+
 		game_control.transition(GameController.TurnState.PLAYER_TURN)
-		if(!deck_ui.is_empty()):
+		_log("--- Player Turn ---")
+		if not deck_ui.is_empty():
 			var card_with_id = deck_ui.draw()
 			player_deck_in_hand.add_card(card_with_id)
+			_log("Player draws %s" % card_with_id.card.get_node("Card").card_name)
 		for structure in player_deck_in_hand.table.structures:
 			structure.activate_in_play({
 			"caster": $MainScreen/PlayerCharacter,
@@ -87,6 +101,7 @@ func _process(delta: float) -> void:
 			"targets": enemy_deck_in_hand.table.table,
 			"enemy": $MainScreen/EnemyCharacter
 			})
+			_log("Player's %s activates" % structure.get_node("Card").card_name)
 		for creature in player_deck_in_hand.table.table:
 			creature.activate_in_play({
 			"caster": $MainScreen/PlayerCharacter,
@@ -94,8 +109,10 @@ func _process(delta: float) -> void:
 			"targets": enemy_deck_in_hand.table.table,
 			"enemy": $MainScreen/EnemyCharacter
 			})
+			_log("Player's %s ability triggers" % creature.get_node("Card").card_name)
 		$MainScreen/PlayerCharacter.start_turn()
-	
+		enemy_turn_running = false
+
 	if game_control.current_state == GameController.TurnState.VICTORY:
 		$CanvasLayer/VictoryOverlay.visible = true
 	else:
@@ -106,12 +123,14 @@ func _process(delta: float) -> void:
 	else:
 		$CanvasLayer/GameOverOverlay.visible = false
 
+func _log(msg: String) -> void:
+	print(msg)
+
 func _input(event: InputEvent) -> void:
 	if event.is_action("restart"):
 		restart_game()
 
 func _on_table_card_activated(card: UsableCard) -> void:
-	var card_cost: int = card.get_cost()
 	if game_control.current_state == GameController.TurnState.PLAYER_TURN:
 		card.activate({
 		"caster": $MainScreen/PlayerCharacter,
@@ -183,19 +202,6 @@ func _on_playable_deck_ui_pressed() -> void:
 		var card_with_id = deck_ui.draw()
 		player_deck_in_hand.add_card(card_with_id)
 	pass
-
-func _on_começar_pressed() -> void:
-	player_character.set_health_value(player_character.health)
-	enemy_character.set_health_value(enemy_character.health)
-	$"CanvasLayer/tela de começo".visible = false
-	player_deck_in_hand.start()
-	for i in range(5):
-		var card_with_id = deck_ui.draw()
-		player_deck_in_hand.add_card(card_with_id)
-	enemy_deck_in_hand.start()
-	for i in range(5):
-		var card_with_id = deck_ui.draw()
-		enemy_deck_in_hand.add_card(card_with_id)
 
 func _on_deck_in_hand_starting() -> void:
 	deck_ui.deck = player_deck.get_playable_deck()
