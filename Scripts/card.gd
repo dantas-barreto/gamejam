@@ -68,16 +68,16 @@ func activate():
 
 func add_armor(amount) -> void:
 	card_defense += amount
+	_update_graphics()
 
 func take_damage(amount) -> void:
 	card_defense -= amount
+	_update_graphics()
 	if(card_defense <= 0):
 		die_card.emit(self)
 
 func dont_attack():
 	card_attack = 0
-
-func _process(delta):
 	_update_graphics()
 
 func _on_area_2d_mouse_entered():
