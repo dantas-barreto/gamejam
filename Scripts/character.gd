@@ -1,6 +1,7 @@
 @tool
 class_name Character extends Node2D
 
+# TODO: rename add_discard — it handles both draw and discard, the name doesn't reflect that
 signal add_discard
 
 @export var starting_health: int = 50
@@ -51,13 +52,12 @@ func add_card_from_deck(amount: int):
 func dont_attack():
 	pass
 
-func discart_random_card():
+func discard_random_card():
 	var type = "discard"
 	add_discard.emit(type)
 
 func start_turn():
-	armor = 0 #definicao temporaria
-	# recebe uma carta no inicio do turno
+	armor = 0
 
 func reset():
 	health = starting_health
@@ -66,6 +66,7 @@ func reset():
 func _ready() -> void:
 	reset()
 
+# TODO: make update_health_value and update_armor_value event-driven (call on stat change) like card.gd
 func _process(delta: float) -> void:
 	update_health_value()
 	update_armor_value()

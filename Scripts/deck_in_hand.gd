@@ -21,7 +21,7 @@ signal objective
 @onready var revitalizeCardScene: PackedScene = preload("res://Scenes/Cards/Spells/Revitalize.tscn")
 @onready var stoneSkinCardScene: PackedScene = preload("res://Scenes/Cards/Spells/StoneSkin.tscn")
 @onready var strongWindsCardScene: PackedScene = preload("res://Scenes/Cards/Spells/StrongWind.tscn")
-@onready var waterOfLiteCardScene: PackedScene = preload("res://Scenes/Cards/Spells/WaterOfLife.tscn")
+@onready var waterOfLifeCardScene: PackedScene = preload("res://Scenes/Cards/Spells/WaterOfLife.tscn")
 @onready var windBarrierCardScene: PackedScene = preload("res://Scenes/Cards/Spells/WindBarrier.tscn")
 
 # Structures
@@ -29,7 +29,7 @@ signal objective
 @onready var earthSoulCardScene: PackedScene = preload("res://Scenes/Cards/Structures/EarthSoul.tscn")
 @onready var flameFortressCardScene: PackedScene = preload("res://Scenes/Cards/Structures/FlameFortress.tscn")
 @onready var fortressCardScene: PackedScene = preload("res://Scenes/Cards/Structures/Fortress.tscn")
-@onready var fountainOdLifeCardScene: PackedScene = preload("res://Scenes/Cards/Structures/FountainOfLife.tscn")
+@onready var fountainOfLifeCardScene: PackedScene = preload("res://Scenes/Cards/Structures/FountainOfLife.tscn")
 @onready var healthStoneCardScene: PackedScene = preload("res://Scenes/Cards/Structures/HealthStone.tscn")
 @onready var mausoleumCardScene: PackedScene = preload("res://Scenes/Cards/Structures/Mausoleum.tscn")
 @onready var swirlCardScene: PackedScene = preload("res://Scenes/Cards/Structures/Swirl.tscn")
@@ -37,7 +37,7 @@ signal objective
 
 # Creatures
 @onready var airGolemScene: PackedScene = preload("res://Scenes/Cards/Creatures/AirGolem.tscn")
-@onready var armouredfireScene: PackedScene = preload("res://Scenes/Cards/Creatures/ArmouredFire.tscn")
+@onready var armouredFireScene: PackedScene = preload("res://Scenes/Cards/Creatures/ArmouredFire.tscn")
 @onready var dropletScene: PackedScene = preload("res://Scenes/Cards/Creatures/Droplet.tscn")
 @onready var earthElementalScene: PackedScene = preload("res://Scenes/Cards/Creatures/EarthElemental.tscn")
 @onready var earthGolemScene: PackedScene = preload("res://Scenes/Cards/Creatures/EarthGolem.tscn")
@@ -65,7 +65,7 @@ func add_card(card_with_id: CardWithID):
 func reset():
 	hand.empty_hand()
 
-func removeRandomCard():
+func remove_random_card():
 	hand.remove_card(randi_range(0,hand.hand.size()-1))
 
 func start_with_deck(player_deck_data: PlayerDeck) -> void:
@@ -74,6 +74,7 @@ func start_with_deck(player_deck_data: PlayerDeck) -> void:
 		if scene:
 			deck.add_card(scene.instantiate())
 
+# TODO: drive random deck from CardRegistry.get_all() instead of hardcoded scene preloads
 func start():
 	# 1x spells
 	deck.add_card(newWindsCardScene.instantiate())
@@ -81,7 +82,7 @@ func start():
 	deck.add_card(revitalizeCardScene.instantiate())
 	deck.add_card(stoneSkinCardScene.instantiate())
 	deck.add_card(strongWindsCardScene.instantiate())
-	deck.add_card(waterOfLiteCardScene.instantiate())
+	deck.add_card(waterOfLifeCardScene.instantiate())
 	deck.add_card(windBarrierCardScene.instantiate())
 
 	# 1x structures
@@ -105,11 +106,11 @@ func start():
 		deck.add_card(rageCardScene.instantiate())
 
 		deck.add_card(earthSoulCardScene.instantiate())
-		deck.add_card(fountainOdLifeCardScene.instantiate())
+		deck.add_card(fountainOfLifeCardScene.instantiate())
 		deck.add_card(healthStoneCardScene.instantiate())
 
 		deck.add_card(airGolemScene.instantiate())
-		deck.add_card(armouredfireScene.instantiate())
+		deck.add_card(armouredFireScene.instantiate())
 		deck.add_card(dropletScene.instantiate())
 		deck.add_card(earthGolemScene.instantiate())
 		deck.add_card(magicFireScene.instantiate())

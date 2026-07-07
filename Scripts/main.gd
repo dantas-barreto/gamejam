@@ -38,6 +38,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
+	# TODO: amount_objective is never incremented — objective system is incomplete
 	if(objective > 0):
 		if(amount_objective > 3):
 			objective_card.activate({
@@ -59,10 +60,10 @@ func _process(delta: float) -> void:
 		for i in 3:
 			await get_tree().create_timer(0.5).timeout
 			if not enemy_deck_in_hand.hand.hand.is_empty():
-				var choosed_card: UsableCard = enemy_deck_in_hand.hand.hand[rng.randi_range(0, enemy_deck_in_hand.hand.hand.size() - 1)]
-				choosed_card.set_rotation(deg_to_rad(0))
-				enemy_deck_in_hand._on_hand_card_transfer_to_table(choosed_card)
-				_log("Enemy plays %s (%s)" % [choosed_card.get_node("Card").card_name, choosed_card.get_type()])
+				var chosen_card: UsableCard = enemy_deck_in_hand.hand.hand[rng.randi_range(0, enemy_deck_in_hand.hand.hand.size() - 1)]
+				chosen_card.set_rotation(deg_to_rad(0))
+				enemy_deck_in_hand._on_hand_card_transfer_to_table(chosen_card)
+				_log("Enemy plays %s (%s)" % [chosen_card.get_node("Card").card_name, chosen_card.get_type()])
 
 		game_control.transition(GameController.TurnState.ATTACK_TURN)
 		_log("--- Combat ---")
@@ -88,6 +89,7 @@ func _process(delta: float) -> void:
 			_log("Enemy's %s attacks for %d" % [creature.get_node("Card").card_name, atk])
 			await get_tree().create_timer(0.5).timeout
 
+		# TODO: call activate_in_play for enemy structures and creatures (same as player below)
 		game_control.transition(GameController.TurnState.PLAYER_TURN)
 		_log("--- Player Turn ---")
 		if not deck_ui.is_empty():
@@ -113,11 +115,12 @@ func _process(delta: float) -> void:
 		$MainScreen/PlayerCharacter.start_turn()
 		enemy_turn_running = false
 
+	# TODO: set overlay visibility on state transition instead of polling every frame
 	if game_control.current_state == GameController.TurnState.VICTORY:
 		$CanvasLayer/VictoryOverlay.visible = true
 	else:
 		$CanvasLayer/VictoryOverlay.visible = false
-	
+
 	if game_control.current_state == GameController.TurnState.GAME0VER:
 		$CanvasLayer/GameOverOverlay.visible = true
 	else:
@@ -130,6 +133,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action("restart"):
 		restart_game()
 
+# TODO: check card cost before activating, same as _on_deck_in_hand_card_activated
 func _on_table_card_activated(card: UsableCard) -> void:
 	if game_control.current_state == GameController.TurnState.PLAYER_TURN:
 		card.activate({
@@ -219,7 +223,7 @@ func _on_player_character_add_discard(type) -> void:
 			var card_with_id = deck_ui.draw()
 			player_deck_in_hand.add_card(card_with_id)
 	else:
-		player_deck_in_hand.removeRandomCard()
+		player_deck_in_hand.remove_random_card()
 
 func _on_start_button_pressed() -> void:
 	$"CanvasLayer/StartScreen".visible = false

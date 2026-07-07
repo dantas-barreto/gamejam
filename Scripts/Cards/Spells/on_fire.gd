@@ -6,4 +6,4 @@ func activate(game_state: Dictionary):
 	caster.add_health(1)
 	game_state.get("enemy").take_damage(2)
 	caster.add_card_from_deck(2)
-	caster.discart_random_card()
+	caster.discard_random_card()

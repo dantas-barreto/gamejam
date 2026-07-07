@@ -4,12 +4,13 @@ enum TurnState{
 	PLAYER_TURN,
 	ENEMY_TURN,
 	ATTACK_TURN,
-	GAME0VER,
+	GAME0VER, # TODO: fix typo (zero instead of O); update all references in main.gd and scenes
 	VICTORY
 }
 
 @onready var current_state: TurnState = TurnState.PLAYER_TURN
 
+# TODO: populate match arms with entry/exit logic per state (animations, UI signals, sound)
 func transition(next_state: TurnState):
 	match current_state:
 		TurnState.PLAYER_TURN:
