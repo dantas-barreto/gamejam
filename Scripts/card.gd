@@ -71,7 +71,7 @@ func add_armor(amount) -> void:
 
 func take_damage(amount) -> void:
 	card_defense -= amount
-	if(card_defense >= 0):
+	if(card_defense <= 0):
 		die_card.emit(self)
 
 func dont_attack():

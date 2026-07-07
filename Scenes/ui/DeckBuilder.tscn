@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://cx4rnp8q2vt6e"]
+
+[ext_resource type="Script" path="res://Scripts/ui/deck_builder.gd" id="1_db001"]
+
+[node name="DeckBuilder" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_db001")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.08, 0.12, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 52)
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+size_flags_horizontal = 3
+text = "Deck Builder"
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 26
+
+[node name="CountLabel" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+size_flags_horizontal = 3
+text = "0 / 40"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 20
+
+[node name="HintLabel" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+size_flags_horizontal = 3
+text = "Left-click: add    Right-click: remove"
+horizontal_alignment = 2
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 12
+
+[node name="SaveButton" type="Button" parent="MarginContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(110, 0)
+text = "Save & Back"
+theme_override_font_sizes/font_size = 16
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(80, 0)
+text = "Back"
+theme_override_font_sizes/font_size = 16
+
+[node name="ContentHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ContentHBox"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ContentHBox/ScrollContainer"]
+size_flags_horizontal = 3
+columns = 6
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="PreviewPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/ContentHBox"]
+custom_minimum_size = Vector2(220, 0)
+size_flags_vertical = 3
+
+[node name="PreviewMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/ContentHBox/PreviewPanel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="PreviewVBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ContentHBox/PreviewPanel/PreviewMargin"]
+theme_override_constants/separation = 8
+
+[node name="PreviewTitle" type="Label" parent="MarginContainer/VBoxContainer/ContentHBox/PreviewPanel/PreviewMargin/PreviewVBox"]
+text = "Hover a card"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+
+[node name="PreviewArt" type="TextureRect" parent="MarginContainer/VBoxContainer/ContentHBox/PreviewPanel/PreviewMargin/PreviewVBox"]
+custom_minimum_size = Vector2(0, 200)
+size_flags_vertical = 3
+expand_mode = 3
+stretch_mode = 6
+
+[node name="PreviewName" type="Label" parent="MarginContainer/VBoxContainer/ContentHBox/PreviewPanel/PreviewMargin/PreviewVBox"]
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 16
+
+[node name="PreviewStats" type="Label" parent="MarginContainer/VBoxContainer/ContentHBox/PreviewPanel/PreviewMargin/PreviewVBox"]
+text = ""
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/SaveButton" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Header/BackButton" to="." method="_on_back_pressed"]

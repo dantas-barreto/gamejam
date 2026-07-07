@@ -68,6 +68,12 @@ func reset():
 func removeRandomCard():
 	hand.remove_card(randi_range(0,hand.hand.size()-1))
 
+func start_with_deck(player_deck_data: PlayerDeck) -> void:
+	for card_id in player_deck_data.card_ids:
+		var scene := CardRegistry.get_scene(card_id)
+		if scene:
+			deck.add_card(scene.instantiate())
+
 func start():
 	#spells
 	var fireball = fireballCardScene.instantiate()

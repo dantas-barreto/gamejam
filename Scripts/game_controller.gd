@@ -1,6 +1,6 @@
 class_name GameController extends Node2D
 
-enum GameState{
+enum TurnState{
 	PLAYER_TURN,
 	ENEMY_TURN,
 	ATTACK_TURN,
@@ -8,33 +8,33 @@ enum GameState{
 	VICTORY
 }
 
-@onready var current_state: GameState = GameState.PLAYER_TURN
+@onready var current_state: TurnState = TurnState.PLAYER_TURN
 
-func transition(next_state: GameState):
+func transition(next_state: TurnState):
 	match current_state:
-		GameState.PLAYER_TURN:
+		TurnState.PLAYER_TURN:
 			pass
-		GameState.ENEMY_TURN:
+		TurnState.ENEMY_TURN:
 			pass
-		GameState.ATTACK_TURN:
+		TurnState.ATTACK_TURN:
 			pass
-		GameState.GAME0VER:
+		TurnState.GAME0VER:
 			pass
-		GameState.VICTORY:
+		TurnState.VICTORY:
 			pass
-	
+
 	current_state = next_state
-	
+
 	match current_state:
-		GameState.PLAYER_TURN:
+		TurnState.PLAYER_TURN:
 			pass
-		GameState.ENEMY_TURN:
+		TurnState.ENEMY_TURN:
 			pass
-		GameState.ATTACK_TURN:
+		TurnState.ATTACK_TURN:
 			pass
-		GameState.GAME0VER:
+		TurnState.GAME0VER:
 			pass
-		GameState.VICTORY:
+		TurnState.VICTORY:
 			pass
 
 
